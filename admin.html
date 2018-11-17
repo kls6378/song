@@ -61,6 +61,9 @@
         th {
             background: black;
         }
+        .link{
+            display: none;
+        }
         #order {
             width: 300px;
         }
@@ -102,7 +105,7 @@
             height: 100px;
             display: block;
             margin: 0 auto;
-            margin-top: 80px;
+            margin-top: 40px;
             text-align: center;
             border: 0;
             background: none;
@@ -110,21 +113,53 @@
             font-size: 40px;
             font-weight: bold;
         }
+        #playingInfo2{
+            width: 100%;
+            height: 100px;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            border: 0;
+            background: none;
+            color: white;
+            font-size: 30px;
+        }
+        #buttons{
+            width: 220px;
+            margin: 0 auto;
+        }
         #next {
-            width: 80px;
+            width: 100px;
             height: 40px;
             display: none;
-            margin: 0 auto;
+            position: absolute;
             border: 0;
             border-radius: 5px;
             background: #2ed573;
-            color: rgb(255, 255, 255);
+            color: white;
             cursor: pointer;
             font-size: 25px;
             font-weight: bold;
         }
         #next:hover {
             background: #20b85f;
+        }
+        #go{
+            width: 100px;
+            height: 40px;
+            display: none;
+            position: absolute;
+            margin-left: 120px;
+            border: 0;
+            border-radius: 5px;
+            background: #00a8ff;
+            color: white;
+            cursor: pointer;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        #go:hover {
+            background: #0097e6;
         }
 
     </style>
@@ -139,6 +174,7 @@
                 <th>곡명</th>
                 <th>아티스트</th>
                 <th>신청자</th>
+                <th class="link">링크</th>
             </tr>
         </table>
     </div>
@@ -147,22 +183,32 @@
         <form>
             <span><img src="assets/lp.gif" id="lpIMG">&nbsp;현재 재생 중인 곡♫</span>
             <input type="text" id="playingInfo">
-            <input type="button" id="next" value="다음곡" onclick="nextSong()">
+            <input type="text" id="playingInfo2">
+            <div id="buttons">
+                <input type="button" id="next" value="다음곡" onclick="nextSong()">
+                <input type="button" id="go" value="링크이동" onclick="goLink()">
+            </div>
         </form>
     </div>
+
     <script>
         var songName = "곡명";
         var artist = "아티스트";
         var name = "신청자";
         var link = "링크";
 
-        var playingInfo = document.getElementById('playingInfo').value = `${songName}-${artist} [${name}]${link}`;
+        var playingInfo = document.getElementById('playingInfo').value = `${songName}-${artist} [${name}]`;
         var text = document.getElementById('playingInfo');
         text.readOnly = true;
+
+        var playingInfo2 = document.getElementById('playingInfo2').value = `${link}`;
+        var text2 = document.getElementById('playingInfo2');
+        text2.readOnly = true;
 
         var i = 0;
 
         var next = document.getElementById('next');
+        var go = document.getElementById('go');
 
         var roomNumber=123;
         var roomNumberText = document.getElementById('roomNumber');
@@ -177,13 +223,17 @@
             var tdSongName = tr.insertCell(1);
             var tdArtist = tr.insertCell(2);
             var tdName = tr.insertCell(3);
+            var tdLink = tr.insertCell(4);
             tdOrder.setAttribute('id','order');
             tdOrder.innerHTML = i;
             tdSongName.innerHTML = songName;
             tdArtist.innerHTML = artist;
             tdName.innerHTML = name;
+            tdLink.setAttribute('class','link');
+            tdLink.innerHTML = link;
             if (i > 0) {
                 next.style.display = "block";
+                go.style.display = "block";
             }
         }
         function nextSong() {
@@ -194,10 +244,22 @@
             var playingSongName = document.getElementById('list').rows[1].cells[1].innerHTML;
             var playingArtist = document.getElementById('list').rows[1].cells[2].innerHTML;
             var playingName = document.getElementById('list').rows[1].cells[3].innerHTML;
+            var playingLink = document.getElementById('list').rows[1].cells[4].innerHTML;
             playingInfo = document.getElementById('playingInfo').value = `${playingSongName}-${playingArtist} [${playingName}]`;
+            playingInfo2 = document.getElementById('playingInfo2').value = `${playingLink}`;
             document.getElementById("list").deleteRow(1);
             if (i <= 0) {
                 next.style.display = "none";
+            }
+        }
+
+        function goLink(){
+            var togo = document.getElementById('playingInfo2').value;
+            if(link.slice(0,4)=="http"){
+                window.open(togo,'_blank');
+            }
+            else if(link.slice(0,4)!="http"){
+                window.open(`http://${togo}`,'_blank');
             }
         }
     </script>
