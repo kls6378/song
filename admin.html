@@ -255,10 +255,10 @@
 
         function goLink(){
             var togo = document.getElementById('playingInfo2').value;
-            if(link.slice(0,4)=="http"){
+            if(togo.slice(0,4)=="http"){
                 window.open(togo,'_blank');
             }
-            else if(link.slice(0,4)!="http"){
+            else if(togo.slice(0,4)!="http"){
                 window.open(`http://${togo}`,'_blank');
             }
         }
