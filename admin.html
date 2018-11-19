@@ -195,7 +195,7 @@
         var songName = "곡명";
         var artist = "아티스트";
         var name = "신청자";
-        var link = "링크";
+        var link = "HTTP://WWW.naver.com";
 
         var playingInfo = document.getElementById('playingInfo').value = `${songName}-${artist} [${name}]`;
         var text = document.getElementById('playingInfo');
@@ -255,10 +255,12 @@
 
         function goLink(){
             var togo = document.getElementById('playingInfo2').value;
-            if(togo.slice(0,4)=="http"){
+            var togoComp = togo.slice(0,4);
+    
+            if(togoComp.toLowerCase()=="http"){
                 window.open(togo,'_blank');
             }
-            else if(togo.slice(0,4)!="http"){
+            else if(togoComp.toLowerCase()!="http"){
                 window.open(`http://${togo}`,'_blank');
             }
         }
